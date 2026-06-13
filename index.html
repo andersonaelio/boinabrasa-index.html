@@ -155,7 +155,7 @@ body.anim .intro-inner{animation:logoIn 1.7s cubic-bezier(.34,1.25,.5,1) both}
   100%{opacity:1;transform:scale(1) rotate(0)}
 }
 body.anim .hero-media,body.anim #embers{opacity:0;transition:opacity 1.2s ease .25s}
-body:not(.anim) .hero-media,body:not(.anim) .hero-media video{opacity:1}
+body:not(.anim) .hero-media{opacity:1}
 body.anim.intro-done .hero-media,body.anim.intro-done #embers{opacity:1}
 body.anim header .brand{opacity:0;transition:opacity .35s}
 body.anim.intro-done header .brand{opacity:1}
@@ -359,7 +359,7 @@ footer{padding:3.4rem 0 2.4rem;background:var(--char)}
   html{scroll-behavior:auto}
 }
 /* anti-flash: esconde mídia do hero até a intro terminar */
-.hero-media,.hero-media video{opacity:0}
+.hero-media{opacity:0}
 </style>
 <script>
 /* Se reduzir movimento, mostra tudo direto */
@@ -368,7 +368,7 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
 }
 </script>
 <style>
-@media(prefers-reduced-motion:reduce){.hero-media,.hero-media video{opacity:1}}
+@media(prefers-reduced-motion:reduce){.hero-media{opacity:1}}
 </style>
 </head>
 <body>
