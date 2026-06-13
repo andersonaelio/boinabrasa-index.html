@@ -654,7 +654,7 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
   const reduz=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const intro=document.getElementById('introLogo');
   const brand=document.querySelector('header .brand');
-  if(reduz||!intro||!brand){if(intro)intro.remove();return;}
+  if(reduz||!intro||!brand){if(intro)intro.remove();var hm=document.querySelector('.hero-media');if(hm)hm.style.opacity='';return;}
   document.body.classList.add('anim');
   const FASE1=2600; // pop + giro (1.7s) + pausa assentada (0.9s)
   setTimeout(function(){
@@ -671,12 +671,13 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
     img.style.transform='translate('+dx+'px,'+dy+'px) scale('+s+')';
     setTimeout(function(){
       document.body.classList.add('intro-done');
+      var hm=document.querySelector('.hero-media');if(hm)hm.style.opacity='';
       img.style.opacity='0';
       setTimeout(function(){intro.remove();},300);
     },1250);
   },FASE1);
   // segurança: se algo falhar, mostra tudo
-  setTimeout(function(){document.body.classList.add('intro-done');},5500);
+  setTimeout(function(){document.body.classList.add('intro-done');var hm=document.querySelector('.hero-media');if(hm)hm.style.opacity='';},5500);
 })();
 
 /* ---- scroll reveal ---- */
