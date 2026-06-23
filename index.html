@@ -360,6 +360,370 @@ footer{padding:3.4rem 0 2.4rem;background:var(--char)}
 }
 /* anti-flash: esconde mídia do hero até a intro terminar */
 .hero-media{opacity:0}
+
+/* ============================================================
+   NOVAS FEATURES — chips, toast, modal, carrinho
+   ============================================================ */
+
+/* ---------- chips de ingredientes ---------- */
+.ingredients{
+  display:flex;flex-wrap:wrap;gap:.4rem;
+  margin-top:.85rem;
+}
+.ing{
+  font-family:var(--body);
+  font-size:.72rem;font-weight:600;letter-spacing:.03em;
+  padding:.32rem .7rem;border-radius:3px;
+  border:1px solid rgba(176,122,74,.22);
+  background:transparent;color:var(--ash);
+  cursor:pointer;
+  transition:all .22s ease;
+  white-space:nowrap;
+  user-select:none;
+}
+.ing:hover{border-color:var(--copper);color:var(--cream)}
+.ing.removed{
+  text-decoration:line-through;
+  text-decoration-thickness:1px;
+  color:rgba(156,135,113,.35);
+  border-color:rgba(176,122,74,.08);
+  background:rgba(0,0,0,.25);
+}
+.ing-hint{
+  font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(156,135,113,.55);align-self:center;margin-right:.25rem;
+}
+
+/* ---------- botão pedir (mudança no estado) ---------- */
+.pedir{
+  cursor:pointer;background:none;border:none;
+  font-family:var(--body);padding:0;
+}
+.pedir.added{color:#7eeaa4;border-color:transparent;pointer-events:none}
+.champ-btn.added{
+  background:rgba(80,210,120,.18) !important;
+  color:#7eeaa4 !important;
+  pointer-events:none;
+}
+
+/* ---------- carrinho no header ---------- */
+.cart-btn{
+  position:relative;display:inline-flex;align-items:center;gap:.45rem;
+  background:none;border:1px solid rgba(176,122,74,.3);
+  padding:.55rem 1.05rem;border-radius:4px;cursor:pointer;
+  font-family:var(--body);font-weight:700;font-size:.74rem;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cream);
+  transition:border-color .25s,color .25s;
+}
+.cart-btn:hover{border-color:var(--copper);color:var(--amber)}
+.cart-count{
+  display:none;min-width:20px;height:20px;border-radius:50%;
+  background:var(--ember);color:var(--cream);
+  font-size:.7rem;font-weight:800;letter-spacing:0;
+  align-items:center;justify-content:center;line-height:1;
+  padding:0 .3rem;
+}
+.cart-count.show{display:inline-flex}
+
+/* ---------- toast ---------- */
+.toast{
+  position:fixed;bottom:5.5rem;right:1.3rem;z-index:200;
+  background:rgba(17,9,6,.96);border:1px solid rgba(169,59,34,.4);
+  border-radius:6px;padding:.85rem 1.15rem;
+  display:flex;align-items:center;gap:.75rem;
+  font-size:.84rem;font-weight:600;color:var(--cream);
+  box-shadow:0 14px 38px -10px rgba(0,0,0,.75);
+  opacity:0;transform:translateY(14px);
+  transition:opacity .3s ease,transform .3s ease;
+  pointer-events:none;max-width:280px;
+  backdrop-filter:blur(10px);
+}
+.toast.show{opacity:1;transform:none}
+.toast-icon{font-size:1.2rem;flex-shrink:0;line-height:1}
+.toast-text{display:flex;flex-direction:column;gap:.12rem;line-height:1.3}
+.toast-text strong{
+  color:var(--amber);font-size:.66rem;font-weight:800;
+  letter-spacing:.16em;text-transform:uppercase;
+}
+
+/* ---------- modal pedido ---------- */
+.modal-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(5,2,1,.88);backdrop-filter:blur(6px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  width:min(620px,100%);max-height:92svh;overflow-y:auto;
+  background:var(--soot);
+  border:1px solid rgba(176,122,74,.2);
+  border-bottom:none;
+  border-radius:14px 14px 0 0;
+  padding:2rem 1.8rem 2.4rem;
+  transform:translateY(100%);
+  transition:transform .42s cubic-bezier(.22,.85,.32,1);
+}
+.modal-overlay.open .modal{transform:none}
+.modal-handle{
+  width:42px;height:4px;border-radius:2px;
+  background:rgba(176,122,74,.3);
+  margin:0 auto 1.6rem;
+}
+.modal-title{
+  font-family:var(--display);font-weight:800;font-size:1.6rem;
+  letter-spacing:.04em;text-transform:uppercase;
+  margin-bottom:1.6rem;line-height:1;padding-top:.06em;
+}
+.modal-title em{color:var(--amber);font-style:normal}
+
+/* itens do pedido no modal */
+.order-items{
+  background:rgba(11,6,4,.55);
+  border:1px solid rgba(176,122,74,.15);
+  border-radius:6px;padding:.9rem 1.1rem;
+  margin-bottom:1.5rem;
+}
+.order-item{
+  display:flex;align-items:flex-start;gap:.8rem;
+  padding:.6rem 0;
+  border-bottom:1px solid rgba(176,122,74,.08);
+  font-size:.88rem;
+}
+.order-item:last-of-type{border-bottom:none}
+.order-item-main{flex:1;display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.order-item-name{font-weight:600;color:var(--cream)}
+.order-item-obs{
+  font-size:.76rem;color:var(--copper);font-style:italic;
+}
+.order-item-price{
+  font-family:var(--display);font-weight:700;font-size:.95rem;
+  color:var(--amber);white-space:nowrap;
+}
+.order-item-remove{
+  background:none;border:none;cursor:pointer;
+  color:rgba(156,135,113,.4);font-size:1rem;
+  padding:.1rem .3rem;line-height:1;flex-shrink:0;
+  transition:color .2s;
+}
+.order-item-remove:hover{color:var(--ember-hi)}
+.order-total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-top:.85rem;margin-top:.4rem;
+  border-top:1px solid rgba(176,122,74,.2);
+  font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ash);
+}
+.order-total-value{
+  font-family:var(--display);font-weight:800;font-size:1.5rem;
+  color:var(--amber);letter-spacing:.02em;
+}
+
+/* steps */
+.modal-steps{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.8rem}
+.modal-step{
+  background:rgba(11,6,4,.5);
+  border:1px solid rgba(176,122,74,.15);
+  border-radius:6px;padding:1.1rem 1.25rem;
+}
+.step-label{
+  display:flex;align-items:center;gap:.7rem;
+  font-family:var(--body);font-weight:800;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--copper);margin-bottom:.95rem;
+}
+.step-num{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:rgba(169,59,34,.18);
+  border:1px solid rgba(169,59,34,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:700;font-size:.82rem;
+  color:var(--amber);line-height:1;
+}
+.radio-group{display:flex;flex-wrap:wrap;gap:.5rem}
+.radio-opt{
+  display:flex;align-items:center;gap:.5rem;cursor:pointer;
+  font-size:.84rem;font-weight:500;color:var(--ash);
+  padding:.5rem .95rem;border-radius:3px;
+  border:1px solid rgba(176,122,74,.2);
+  transition:border-color .2s,background .2s,color .2s;
+}
+.radio-opt:hover{border-color:var(--copper);color:var(--cream)}
+.radio-opt input{display:none}
+.radio-opt.selected{
+  background:rgba(169,59,34,.12);
+  border-color:rgba(169,59,34,.5);
+  color:var(--cream);
+}
+.radio-dot{
+  width:10px;height:10px;border-radius:50%;
+  border:2px solid rgba(176,122,74,.4);
+  transition:background .2s,border-color .2s;flex-shrink:0;
+}
+.radio-opt.selected .radio-dot{background:var(--ember-hi);border-color:var(--ember-hi)}
+.modal-input{
+  width:100%;background:rgba(10,5,6,.7);
+  border:1px solid rgba(176,122,74,.2);
+  border-radius:4px;color:var(--cream);
+  font-family:var(--body);font-size:.92rem;
+  padding:.75rem 1rem;outline:none;
+  transition:border-color .2s;
+}
+.modal-input:focus{border-color:rgba(176,122,74,.5)}
+.modal-input::placeholder{color:rgba(156,135,113,.45)}
+.modal-fields{display:flex;flex-direction:column;gap:.7rem}
+.pix-info{
+  display:flex;align-items:center;gap:.7rem;
+  background:rgba(11,6,4,.55);border:1px solid rgba(176,122,74,.15);
+  border-radius:4px;padding:.7rem .9rem;
+  font-size:.82rem;color:var(--ash);
+  margin-top:.85rem;
+}
+.pix-info strong{color:var(--cream);font-weight:600}
+
+.modal-actions{display:flex;flex-direction:column;gap:.7rem}
+.btn-confirmar{
+  width:100%;padding:1rem;border-radius:4px;border:none;cursor:pointer;
+  background:var(--ember);color:var(--cream);
+  font-family:var(--body);font-weight:700;font-size:.95rem;
+  letter-spacing:.04em;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  transition:background .2s,transform .15s;
+  box-shadow:0 10px 30px -12px rgba(169,59,34,.55);
+}
+.btn-confirmar:hover{background:var(--ember-hi);transform:translateY(-1px)}
+.btn-cancelar{
+  width:100%;padding:.7rem;border-radius:4px;
+  border:1px solid rgba(176,122,74,.15);
+  background:transparent;color:var(--ash);
+  font-family:var(--body);font-weight:600;font-size:.82rem;
+  letter-spacing:.04em;cursor:pointer;
+  transition:border-color .2s,color .2s;
+}
+.btn-cancelar:hover{border-color:var(--copper);color:var(--cream)}
+.modal-empty{
+  text-align:center;padding:2.4rem 0 1.5rem;color:var(--ash);
+}
+.modal-empty .e-icon{font-size:2.6rem;margin-bottom:.6rem;line-height:1}
+.modal-empty p{font-size:.88rem;line-height:1.5}
+
+@media (max-width:720px){
+  .modal{padding:1.6rem 1.2rem 2rem;border-radius:14px 14px 0 0}
+  .modal-title{font-size:1.4rem}
+  .ing{font-size:.68rem}
+  .nav .cart-btn{padding:.5rem .85rem;font-size:.7rem}
+}
+
+/* ============================================================
+   FLOATING CART BAR — aparece quando tem item
+   ============================================================ */
+.cart-bar{
+  position:fixed;left:50%;bottom:1.3rem;transform:translateX(-50%) translateY(150%);
+  z-index:55;display:flex;align-items:center;gap:1.2rem;
+  padding:.95rem 1.4rem .95rem 1.5rem;
+  border-radius:10px;
+  background:linear-gradient(100deg,var(--ember) 0%,#C24A2B 50%,var(--amber) 100%);
+  color:#190600;cursor:pointer;border:none;
+  box-shadow:0 18px 44px -14px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.15) inset;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .25s;
+  font-family:var(--body);
+  max-width:calc(100% - 2rem);
+  /* deixa espaço pro botão flutuante do WhatsApp */
+  right:auto;
+}
+.cart-bar.show{transform:translateX(-50%) translateY(0)}
+.cart-bar:hover{box-shadow:0 22px 50px -12px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.15) inset}
+.cart-bar-left{display:flex;flex-direction:column;line-height:1.05;text-align:left}
+.cart-bar-count{
+  font-size:.66rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(25,6,0,.7);
+}
+.cart-bar-total{
+  font-family:var(--display);font-weight:800;font-size:1.55rem;
+  letter-spacing:.01em;line-height:1;padding-top:.1em;
+}
+.cart-bar-cta{
+  font-weight:800;font-size:.82rem;letter-spacing:.04em;
+  border-left:1px solid rgba(25,6,0,.25);
+  padding-left:1.2rem;white-space:nowrap;
+}
+@media (max-width:720px){
+  .cart-bar{
+    left:1rem;right:5.5rem;bottom:1rem;
+    transform:translateY(150%);
+    width:auto;max-width:none;
+    padding:.85rem 1.2rem;
+  }
+  .cart-bar.show{transform:translateY(0)}
+  .cart-bar-total{font-size:1.35rem}
+  .cart-bar-cta{padding-left:1rem;font-size:.76rem}
+}
+
+/* ============================================================
+   ITEM DO MODAL — checklist de ingredientes
+   ============================================================ */
+.order-item{
+  flex-direction:column;align-items:stretch;gap:0;
+  padding:.9rem 0 1rem;
+}
+.order-item-row{display:flex;align-items:flex-start;gap:.8rem;width:100%}
+.order-item-ings{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.05rem .8rem;
+  margin-top:.85rem;padding-top:.85rem;
+  border-top:1px dashed rgba(176,122,74,.18);
+}
+.ing-section-label{
+  grid-column:1/-1;
+  font-size:.62rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(156,135,113,.55);margin-bottom:.3rem;
+}
+.ing-row{
+  display:flex;align-items:center;gap:.65rem;
+  padding:.42rem .25rem;
+  cursor:pointer;border-radius:3px;
+  transition:background .15s;
+  user-select:none;
+}
+.ing-row:hover{background:rgba(176,122,74,.06)}
+.ing-check{
+  width:18px;height:18px;border-radius:4px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--ember) 0%,var(--ember-hi) 100%);
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--ember-hi);
+  transition:all .2s;
+  box-shadow:0 1px 4px -1px rgba(169,59,34,.5);
+}
+.ing-check::after{
+  content:"✓";color:var(--cream);
+  font-size:.78rem;font-weight:700;line-height:1;
+}
+.ing-label{
+  font-size:.85rem;font-weight:500;color:var(--cream);
+  transition:color .2s;line-height:1.3;
+}
+.ing-row.removed .ing-check{
+  background:transparent;
+  border-color:rgba(176,122,74,.3);
+  box-shadow:none;
+}
+.ing-row.removed .ing-check::after{content:""}
+.ing-row.removed .ing-label{
+  color:rgba(156,135,113,.4);
+  text-decoration:line-through;
+  text-decoration-thickness:1px;
+}
+.order-item-obs-line{
+  display:none;font-size:.74rem;color:var(--copper);
+  font-style:italic;margin-top:.35rem;line-height:1.4;
+}
+.order-item-obs-line.show{display:block}
+@media (max-width:540px){
+  .order-item-ings{grid-template-columns:1fr}
+}
 </style>
 <script>
 /* Se reduzir movimento, mostra tudo direto */
@@ -380,6 +744,10 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
       <a href="#cardapio">Cardápio</a>
       <a href="#cozinha">A casa</a>
       <a href="#horario">Horário</a>
+      <button class="cart-btn" id="cartBtn" onclick="openModal()" aria-label="Meu pedido">
+        Meu pedido
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
       <a class="btn" data-pedido="">Pedir no WhatsApp</a>
     </nav>
   </div>
@@ -434,59 +802,59 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
         <div class="menu-group">
           <h3>Pães de alho recheados</h3>
 
-          <div class="row reveal" data-item="Pão de Alho Recheado de Alcatra" data-preco="R$ 28,90">
+          <div class="row reveal" data-item="Pão de Alho Recheado de Alcatra" data-preco="R$ 28,90" data-valor="28.90" data-id="alcatra" data-ings="Alcatra,Muçarela,Alface,Tomate,Rúcula,Cebola">
             <div class="row-top"><h4>Alcatra</h4><span class="leader"></span><span class="price">28,90</span></div>
             <div class="row-meta">
               <p>Alcatra, muçarela, alface, tomate, rúcula e cebola.</p>
-              <a class="pedir" data-pedido-item>Pedir →</a>
+              <button class="pedir" data-add>Pedir →</button>
             </div>
           </div>
 
-          <div class="row reveal" data-item="Pão de Alho Recheado de Costela" data-preco="R$ 25,90">
+          <div class="row reveal" data-item="Pão de Alho Recheado de Costela" data-preco="R$ 25,90" data-valor="25.90" data-id="costela" data-ings="Costela desfiada,Muçarela,Rúcula,Alface,Tomate,Cebola">
             <div class="row-top"><h4>Costela</h4><span class="leader"></span><span class="price">25,90</span></div>
             <div class="row-meta">
               <p>Costela desfiada, muçarela, rúcula, alface, tomate e cebola.</p>
-              <a class="pedir" data-pedido-item>Pedir →</a>
+              <button class="pedir" data-add>Pedir →</button>
             </div>
           </div>
 
-          <div class="row reveal" data-item="Pão de Alho Recheado de Coração" data-preco="R$ 28,90">
+          <div class="row reveal" data-item="Pão de Alho Recheado de Coração" data-preco="R$ 28,90" data-valor="28.90" data-id="coracao" data-ings="Coração na brasa,Muçarela,Tomate,Cebola,Alface,Rúcula">
             <div class="row-top"><h4>Coração</h4><span class="leader"></span><span class="price">28,90</span></div>
             <div class="row-meta">
               <p>Coração na brasa, muçarela, tomate, cebola, alface e rúcula.</p>
-              <a class="pedir" data-pedido-item>Pedir →</a>
+              <button class="pedir" data-add>Pedir →</button>
             </div>
           </div>
 
-          <div class="row reveal" data-item="Pão de Alho Recheado de Frango" data-preco="R$ 25,90">
+          <div class="row reveal" data-item="Pão de Alho Recheado de Frango" data-preco="R$ 25,90" data-valor="25.90" data-id="frango" data-ings="Frango,Muçarela,Tomate,Cebola,Alface">
             <div class="row-top"><h4>Frango</h4><span class="leader"></span><span class="price">25,90</span></div>
             <div class="row-meta">
               <p>Frango, muçarela, tomate, cebola e alface.</p>
-              <a class="pedir" data-pedido-item>Pedir →</a>
+              <button class="pedir" data-add>Pedir →</button>
             </div>
           </div>
 
-          <div class="row reveal" data-item="Pão de Alho Recheado de Bacon" data-preco="R$ 28,90">
+          <div class="row reveal" data-item="Pão de Alho Recheado de Bacon" data-preco="R$ 28,90" data-valor="28.90" data-id="bacon" data-ings="Bacon crocante,Muçarela,Tomate,Cebola,Alface,Rúcula">
             <div class="row-top"><h4>Bacon</h4><span class="leader"></span><span class="price">28,90</span></div>
             <div class="row-meta">
               <p>Bacon crocante, muçarela, tomate, cebola, alface e rúcula.</p>
-              <a class="pedir" data-pedido-item>Pedir →</a>
+              <button class="pedir" data-add>Pedir →</button>
             </div>
           </div>
 
-          <div class="row reveal" data-item="Pão de Alho Recheado de Linguiça Toscana" data-preco="R$ 25,90">
+          <div class="row reveal" data-item="Pão de Alho Recheado de Linguiça Toscana" data-preco="R$ 25,90" data-valor="25.90" data-id="toscana" data-ings="Linguiça toscana,Muçarela,Tomate,Cebola,Rúcula,Alface">
             <div class="row-top"><h4>Linguiça Toscana</h4><span class="leader"></span><span class="price">25,90</span></div>
             <div class="row-meta">
               <p>Linguiça toscana, muçarela, tomate, cebola, rúcula e alface.</p>
-              <a class="pedir" data-pedido-item>Pedir →</a>
+              <button class="pedir" data-add>Pedir →</button>
             </div>
           </div>
 
-          <div class="row reveal" data-item="Pão de Alho Recheado de Calabresa" data-preco="R$ 28,90">
+          <div class="row reveal" data-item="Pão de Alho Recheado de Calabresa" data-preco="R$ 28,90" data-valor="28.90" data-id="calabresa" data-ings="Calabresa,Cheddar,Muçarela,Tomate,Cebola,Alface">
             <div class="row-top"><h4>Calabresa</h4><span class="leader"></span><span class="price">28,90</span></div>
             <div class="row-meta">
               <p>Calabresa, cheddar, muçarela, tomate, cebola e alface.</p>
-              <a class="pedir" data-pedido-item>Pedir →</a>
+              <button class="pedir" data-add>Pedir →</button>
             </div>
           </div>
         </div>
@@ -495,11 +863,11 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
       <figure class="menu-aside reveal reveal-d1">
         <img src="assets/pao-de-alho.jpg" alt="Pão de alho recheado com muçarela gratinada na brasa">
         <figcaption>O pão de alho sai da brasa com a muçarela gratinada por cima e o recheio até a borda. É a estrela da casa — e o motivo de só abrirmos com ingrediente fresco do dia.</figcaption>
-        <div class="champ reveal" data-item="Pão de Alho Recheado de Costela" data-preco="R$ 25,90">
+        <div class="champ reveal" data-item="Pão de Alho Recheado de Costela" data-preco="R$ 25,90" data-valor="25.90" data-id="costela-champ" data-ings="Costela desfiada,Muçarela,Rúcula,Alface,Tomate,Cebola">
           <span class="champ-tag">Campeão da casa</span>
           <div class="champ-row"><h4>Costela</h4><span class="leader"></span><span class="price">25,90</span></div>
           <p>O recheio que mais sai da nossa brasa. Primeira vez aqui? Começa por ele.</p>
-          <a class="btn champ-btn" data-pedido-item>Pedir o campeão</a>
+          <button class="btn champ-btn" data-add>Pedir o campeão</button>
         </div>
         <p class="aside-help reveal">Em dúvida? <a data-pedido="">Chama no WhatsApp</a> que a gente te ajuda a escolher.</p>
       </figure>
@@ -519,27 +887,27 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
       <div class="menu-group">
         <h3>Escolha o tamanho da fome</h3>
 
-        <div class="row reveal" data-item="Hambúrguer 1 Carne" data-preco="R$ 28,90">
+        <div class="row reveal" data-item="Hambúrguer 1 Carne" data-preco="R$ 28,90" data-valor="28.90" data-id="burger1" data-ings="Cheddar,Bacon,Alface,Tomate,Cebola caramelizada">
           <div class="row-top"><h4>1 Carne</h4><span class="leader"></span><span class="price">28,90</span></div>
           <div class="row-meta">
             <p>1 carne, cheddar, bacon, alface, tomate e cebola caramelizada.</p>
-            <a class="pedir" data-pedido-item>Pedir →</a>
+            <button class="pedir" data-add>Pedir →</button>
           </div>
         </div>
 
-        <div class="row reveal" data-item="Hambúrguer 2 Carnes" data-preco="R$ 38,90">
+        <div class="row reveal" data-item="Hambúrguer 2 Carnes" data-preco="R$ 38,90" data-valor="38.90" data-id="burger2" data-ings="Cheddar,Bacon,Alface,Tomate,Cebola caramelizada">
           <div class="row-top"><h4>2 Carnes</h4><span class="leader"></span><span class="price">38,90</span></div>
           <div class="row-meta">
             <p>2 carnes, cheddar, bacon, alface, tomate e cebola caramelizada.</p>
-            <a class="pedir" data-pedido-item>Pedir →</a>
+            <button class="pedir" data-add>Pedir →</button>
           </div>
         </div>
 
-        <div class="row reveal" data-item="Hambúrguer 3 Carnes" data-preco="R$ 48,90">
+        <div class="row reveal" data-item="Hambúrguer 3 Carnes" data-preco="R$ 48,90" data-valor="48.90" data-id="burger3" data-ings="Cheddar,Bacon,Alface,Tomate,Cebola caramelizada">
           <div class="row-top"><h4>3 Carnes</h4><span class="leader"></span><span class="price">48,90</span></div>
           <div class="row-meta">
             <p>3 carnes, cheddar, bacon, alface, tomate e cebola caramelizada.</p>
-            <a class="pedir" data-pedido-item>Pedir →</a>
+            <button class="pedir" data-add>Pedir →</button>
           </div>
         </div>
       </div>
@@ -606,26 +974,320 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
   <svg viewBox="0 0 32 32"><path d="M16 .6C7.6.6.8 7.4.8 15.8c0 2.7.7 5.3 2 7.6L.6 31.4l8.2-2.1c2.2 1.2 4.7 1.9 7.2 1.9 8.4 0 15.2-6.8 15.2-15.2S24.4.6 16 .6zm0 27.8c-2.3 0-4.5-.6-6.4-1.7l-.5-.3-4.9 1.3 1.3-4.7-.3-.5c-1.2-2-1.9-4.3-1.9-6.7C3.3 8.8 9 3.1 16 3.1s12.7 5.7 12.7 12.7S23 28.4 16 28.4zm7-9.5c-.4-.2-2.3-1.1-2.6-1.2-.4-.1-.6-.2-.9.2-.3.4-1 1.2-1.2 1.5-.2.3-.4.3-.8.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8.2-.2.4-.4.6-.7.2-.2.3-.4.4-.7.1-.3.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.6-.7-.9-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 3.9 1.7 4.2c.2.3 2.9 4.4 7 6.2 1 .4 1.7.7 2.3.9 1 .3 1.9.3 2.6.2.8-.1 2.3-1 2.7-1.9.3-.9.3-1.7.2-1.9-.1-.2-.3-.3-.7-.5z"/></svg>
 </a>
 
+<!-- ============ FLOATING CART BAR ============ -->
+<button class="cart-bar" id="cartBar" onclick="openModal()" aria-label="Ver meu pedido">
+  <div class="cart-bar-left">
+    <span class="cart-bar-count" id="cartBarCount">0 itens</span>
+    <span class="cart-bar-total" id="cartBarTotal">R$ 0,00</span>
+  </div>
+  <span class="cart-bar-cta">Ver pedido →</span>
+</button>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast">
+  <span class="toast-icon">🔥</span>
+  <div class="toast-text">
+    <strong>Adicionado ao pedido</strong>
+    <span id="toastMsg"></span>
+  </div>
+</div>
+
+<!-- ============ MODAL PEDIDO ============ -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Seu <em>pedido</em></div>
+
+    <div id="orderItemsWrap">
+      <div class="order-items" id="orderItemsList"></div>
+    </div>
+    <div class="modal-empty" id="modalEmpty" style="display:none">
+      <div class="e-icon">🧄</div>
+      <p>Nenhum item ainda.<br>Escolha um sabor no cardápio!</p>
+    </div>
+
+    <div class="modal-steps" id="modalSteps" style="display:none">
+
+      <div class="modal-step">
+        <div class="step-label"><span class="step-num">01</span> Seus dados</div>
+        <div class="modal-fields">
+          <input class="modal-input" id="inputNome" type="text" placeholder="Seu nome">
+          <input class="modal-input" id="inputEndereco" type="text" placeholder="Endereço completo pra entrega">
+          <input class="modal-input" id="inputReferencia" type="text" placeholder="Ponto de referência (opcional)">
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-label"><span class="step-num">02</span> Pagamento</div>
+        <div class="radio-group" id="pgtoGroup">
+          <label class="radio-opt selected" data-val="pix" onclick="selectRadio(this,'pgtoGroup')">
+            <input type="radio" name="pgto" value="pix" checked>
+            <span class="radio-dot"></span> Pix
+          </label>
+          <label class="radio-opt" data-val="dinheiro" onclick="selectRadio(this,'pgtoGroup')">
+            <input type="radio" name="pgto" value="dinheiro">
+            <span class="radio-dot"></span> Dinheiro
+          </label>
+          <label class="radio-opt" data-val="cartao" onclick="selectRadio(this,'pgtoGroup')">
+            <input type="radio" name="pgto" value="cartao">
+            <span class="radio-dot"></span> Cartão na entrega
+          </label>
+        </div>
+        <div class="pix-info" id="pixInfo">
+          <span style="font-size:1.2rem">📱</span>
+          <span>Chave Pix enviada pelo WhatsApp após confirmação.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-confirmar" id="btnConfirmar" onclick="confirmarPedido()" style="display:none">
+        <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 .6C7.6.6.8 7.4.8 15.8c0 2.7.7 5.3 2 7.6L.6 31.4l8.2-2.1c2.2 1.2 4.7 1.9 7.2 1.9 8.4 0 15.2-6.8 15.2-15.2S24.4.6 16 .6zm0 27.8c-2.3 0-4.5-.6-6.4-1.7l-.5-.3-4.9 1.3 1.3-4.7-.3-.5c-1.2-2-1.9-4.3-1.9-6.7C3.3 8.8 9 3.1 16 3.1s12.7 5.7 12.7 12.7S23 28.4 16 28.4zm7-9.5c-.4-.2-2.3-1.1-2.6-1.2-.4-.1-.6-.2-.9.2-.3.4-1 1.2-1.2 1.5-.2.3-.4.3-.8.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8.2-.2.4-.4.6-.7.2-.2.3-.4.4-.7.1-.3.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.6-.7-.9-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 3.9 1.7 4.2c.2.3 2.9 4.4 7 6.2 1 .4 1.7.7 2.3.9 1 .3 1.9.3 2.6.2.8-.1 2.3-1 2.7-1.9.3-.9.3-1.7.2-1.9-.1-.2-.3-.3-.7-.5z"/></svg>
+        Enviar pedido pelo WhatsApp
+      </button>
+      <button class="btn-cancelar" onclick="closeModal()">Quero pedir mais coisa →</button>
+    </div>
+  </div>
+</div>
+
 <script>
-/* ---- WhatsApp: links gerais e por item ---- */
+/* ---- WhatsApp: links gerais (botões "Pedir no WhatsApp") ---- */
+const WA_FONE='5548996729174';
+const WA_GERAL='Oi! Vi o site do Boi na Brasa e quero fazer um pedido.';
+function waLink(msg){return 'https://wa.me/'+WA_FONE+'?text='+encodeURIComponent(msg);}
 (function(){
-  const FONE='5548996729174';
-  const geral='Oi! Vi o site do Boi na Brasa e quero fazer um pedido.';
-  function link(msg){return 'https://wa.me/'+FONE+'?text='+encodeURIComponent(msg);}
   document.querySelectorAll('[data-pedido]').forEach(function(el){
-    el.setAttribute('href',link(geral));
-    el.setAttribute('target','_blank');
-    el.setAttribute('rel','noopener');
-  });
-  document.querySelectorAll('[data-pedido-item]').forEach(function(el){
-    const row=el.closest('[data-item]');
-    const item=row.getAttribute('data-item');
-    const preco=row.getAttribute('data-preco');
-    el.setAttribute('href',link('Oi! Quero pedir um '+item+' ('+preco+').'));
+    el.setAttribute('href',waLink(WA_GERAL));
     el.setAttribute('target','_blank');
     el.setAttribute('rel','noopener');
   });
 })();
+
+/* ============================================================
+   CARRINHO — array de linhas (cada Pedir = linha nova)
+   Cada linha pode ter suas próprias remoções no modal
+============================================================ */
+let cart = [];
+let lineCounter = 0;
+
+function fmtBR(v){ return 'R$ '+v.toFixed(2).replace('.',','); }
+function cartTotal(){ return cart.reduce(function(s,i){return s+i.valor;},0); }
+function cartCount(){ return cart.length; }
+
+function updateCartUI(){
+  const cnt = cartCount();
+  const total = cartTotal();
+
+  // badge do header
+  const badge = document.getElementById('cartCount');
+  badge.textContent = cnt;
+  badge.classList.toggle('show', cnt>0);
+
+  // floating cart bar
+  const bar = document.getElementById('cartBar');
+  document.getElementById('cartBarCount').textContent = cnt+(cnt===1?' item':' itens');
+  document.getElementById('cartBarTotal').textContent = fmtBR(total);
+  bar.classList.toggle('show', cnt>0);
+}
+
+/* ---- botão "Pedir" / "Pedir o campeão" ---- */
+document.querySelectorAll('[data-add]').forEach(function(btn){
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    const row    = btn.closest('[data-item]');
+    const nome   = row.getAttribute('data-item');
+    const valor  = parseFloat(row.getAttribute('data-valor'));
+    const id     = row.getAttribute('data-id');
+    const ings   = (row.getAttribute('data-ings')||'').split(',').filter(Boolean);
+
+    cart.push({
+      lineId: 'line-'+(++lineCounter),
+      id: id,
+      nome: nome,
+      valor: valor,
+      ings: ings,
+      removidos: []
+    });
+
+    updateCartUI();
+    showToast(nome);
+
+    // feedback no botão
+    const isChamp = btn.classList.contains('champ-btn');
+    const original = btn.textContent;
+    btn.classList.add('added');
+    btn.textContent = isChamp ? '✓ Adicionado ao pedido' : '✓ Adicionado';
+    setTimeout(function(){
+      btn.classList.remove('added');
+      btn.textContent = original;
+    }, 2200);
+  });
+});
+
+/* ---- toast ---- */
+let toastTimer;
+function showToast(nome){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = nome;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2400);
+}
+
+/* ---- modal ---- */
+function openModal(){
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  renderOrderList();
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function handleOverlayClick(e){
+  if(e.target===document.getElementById('modalOverlay')) closeModal();
+}
+
+function removeFromCart(lineId){
+  cart = cart.filter(function(i){ return i.lineId !== lineId; });
+  updateCartUI();
+  renderOrderList();
+}
+
+function toggleIng(lineId, ingName, rowEl){
+  const line = cart.find(function(i){ return i.lineId===lineId; });
+  if(!line) return;
+  const idx = line.removidos.indexOf(ingName);
+  if(idx>-1){
+    line.removidos.splice(idx,1);
+    rowEl.classList.remove('removed');
+  } else {
+    line.removidos.push(ingName);
+    rowEl.classList.add('removed');
+  }
+  // atualiza obs visível
+  const obsEl = document.getElementById('obs-'+lineId);
+  if(obsEl){
+    if(line.removidos.length){
+      obsEl.textContent = '↳ Sem '+line.removidos.join(', sem ').toLowerCase();
+      obsEl.classList.add('show');
+    } else {
+      obsEl.classList.remove('show');
+    }
+  }
+}
+
+function renderOrderList(){
+  const list   = document.getElementById('orderItemsList');
+  const wrap   = document.getElementById('orderItemsWrap');
+  const empty  = document.getElementById('modalEmpty');
+  const steps  = document.getElementById('modalSteps');
+  const btnConfirma = document.getElementById('btnConfirmar');
+
+  list.innerHTML='';
+
+  if(cart.length===0){
+    wrap.style.display='none';
+    empty.style.display='block';
+    steps.style.display='none';
+    btnConfirma.style.display='none';
+    return;
+  }
+
+  wrap.style.display='block';
+  empty.style.display='none';
+  steps.style.display='flex';
+  btnConfirma.style.display='flex';
+
+  cart.forEach(function(item){
+    const div = document.createElement('div');
+    div.className='order-item';
+
+    // checklist de ingredientes (todos marcados por padrão)
+    let ingsHtml = '';
+    if(item.ings.length){
+      const linhas = item.ings.map(function(ing){
+        const isRemoved = item.removidos.indexOf(ing)>-1;
+        const ingEsc = ing.replace(/'/g,"\\'");
+        return '<div class="ing-row'+(isRemoved?' removed':'')+'" onclick="toggleIng(\''+item.lineId+'\',\''+ingEsc+'\',this)">' +
+                 '<span class="ing-check"></span>' +
+                 '<span class="ing-label">'+ing+'</span>' +
+               '</div>';
+      }).join('');
+      ingsHtml = '<div class="order-item-ings">' +
+                   '<span class="ing-section-label">Ingredientes — toque pra tirar</span>' +
+                   linhas +
+                 '</div>';
+    }
+
+    const obsText = item.removidos.length
+      ? '↳ Sem '+item.removidos.join(', sem ').toLowerCase()
+      : '';
+    const obsClass = item.removidos.length ? 'show' : '';
+
+    div.innerHTML =
+      '<div class="order-item-row">' +
+        '<div class="order-item-main">' +
+          '<span class="order-item-name">'+item.nome+'</span>' +
+          '<span class="order-item-obs-line '+obsClass+'" id="obs-'+item.lineId+'">'+obsText+'</span>' +
+        '</div>' +
+        '<span class="order-item-price">'+fmtBR(item.valor)+'</span>' +
+        '<button class="order-item-remove" onclick="removeFromCart(\''+item.lineId+'\')" title="Remover">✕</button>' +
+      '</div>' +
+      ingsHtml;
+    list.appendChild(div);
+  });
+
+  // total
+  const totDiv = document.createElement('div');
+  totDiv.className='order-total';
+  totDiv.innerHTML='<span>Total</span><span class="order-total-value">'+fmtBR(cartTotal())+'</span>';
+  list.appendChild(totDiv);
+}
+
+function selectRadio(el, groupId){
+  document.querySelectorAll('#'+groupId+' .radio-opt').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  if(groupId==='pgtoGroup'){
+    document.getElementById('pixInfo').style.display = el.dataset.val==='pix' ? 'flex' : 'none';
+  }
+}
+
+function confirmarPedido(){
+  if(cart.length===0) return;
+
+  const nome       = document.getElementById('inputNome').value.trim();
+  const endereco   = document.getElementById('inputEndereco').value.trim();
+  const referencia = document.getElementById('inputReferencia').value.trim();
+  const pgto       = document.querySelector('#pgtoGroup .selected').dataset.val;
+
+  // validação leve
+  if(!endereco){
+    alert('Coloca o endereço pra entrega 🔥');
+    document.getElementById('inputEndereco').focus();
+    return;
+  }
+
+  const pgtoLbl = {pix:'Pix', dinheiro:'Dinheiro', cartao:'Cartão na entrega'};
+
+  let msg = '🔥 *Pedido — Boi na Brasa*\n\n';
+  msg += '*Itens:*\n';
+  cart.forEach(function(item){
+    msg += '• '+item.nome+' — '+fmtBR(item.valor);
+    if(item.removidos.length){
+      msg += '\n  ↳ Sem '+item.removidos.join(', sem ').toLowerCase();
+    }
+    msg += '\n';
+  });
+  msg += '\n*Total: '+fmtBR(cartTotal())+'*\n';
+  msg += '\n📍 *Entrega:* '+endereco;
+  if(referencia) msg += '\n🧭 '+referencia;
+  if(nome) msg += '\n👤 '+nome;
+  msg += '\n💳 '+pgtoLbl[pgto];
+
+  window.open(waLink(msg),'_blank');
+  closeModal();
+}
 
 /* ---- aberto / fechado (Qui a Sáb, 18h–00h) ---- */
 (function(){
