@@ -734,6 +734,7 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
 <style>
 @media(prefers-reduced-motion:reduce){.hero-media{opacity:1}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -1055,6 +1056,39 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
 const WA_FONE='5548996729174';
 const WA_GERAL='Oi! Vi o site do Boi na Brasa e quero fazer um pedido.';
 function waLink(msg){return 'https://wa.me/'+WA_FONE+'?text='+encodeURIComponent(msg);}
+
+/* ============================================================
+   PAINEL INTERNO — salva cada pedido no Supabase assim que o
+   cliente clica em enviar. Isso NUNCA bloqueia nem atrasa o
+   WhatsApp; se o banco falhar, o pedido ainda vai normalmente.
+   Troque as duas linhas abaixo pelas credenciais do seu projeto
+   (Supabase > Project Settings > API).
+============================================================ */
+const SUPABASE_URL = 'https://stkkruiowpgzknaihdgt.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_8MWj31AR68Pb1tn4fRZ2rw_NXj7Q3QT';
+let supabaseClient = null;
+try{
+  if(window.supabase && SUPABASE_URL.indexOf('COLOQUE_AQUI')===-1){
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+}catch(e){ console.warn('Supabase não configurado ainda:', e); }
+
+async function salvarPedidoNoPainel(dados){
+  if(!supabaseClient) return; // sem credenciais configuradas ainda — não quebra o site
+  try{
+    await supabaseClient.from('pedidos').insert([{
+      nome: dados.nome || null,
+      endereco: dados.endereco || null,
+      referencia: dados.referencia || null,
+      itens: dados.itens,
+      total: dados.total,
+      forma_pagamento: dados.pgto,
+      status: 'novos'
+    }]);
+  }catch(e){
+    console.warn('Não foi possível salvar o pedido no painel (pedido no WhatsApp segue normal):', e);
+  }
+}
 (function(){
   document.querySelectorAll('[data-pedido]').forEach(function(el){
     el.setAttribute('href',waLink(WA_GERAL));
@@ -1286,6 +1320,18 @@ function confirmarPedido(){
   msg += '\n💳 '+pgtoLbl[pgto];
 
   window.open(waLink(msg),'_blank');
+
+  salvarPedidoNoPainel({
+    nome: nome,
+    endereco: endereco,
+    referencia: referencia,
+    pgto: pgto,
+    total: cartTotal(),
+    itens: cart.map(function(item){
+      return {nome:item.nome, valor:item.valor, removidos:item.removidos};
+    })
+  });
+
   closeModal();
 }
 
