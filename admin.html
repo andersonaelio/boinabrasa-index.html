@@ -570,6 +570,10 @@ function renderHistory(orders){
 async function moveOrder(id, newStatus){
   if(!supabaseClient) return;
   await supabaseClient.from('pedidos').update({status:newStatus}).eq('id', id);
+  if(newStatus === 'pagos'){
+    try{ printComanda(id); }
+    catch(e){ console.warn('Não foi possível abrir a impressão automática:', e); }
+  }
   refreshPainel();
 }
 async function archiveOrder(id){
